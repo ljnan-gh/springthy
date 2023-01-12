@@ -1,0 +1,30 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+    servlet:
+      content-type: text/html
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+  activiti:
+    database-schema-update: true
+    history-level: full
+    db-history-used: true
+    check-process-definitions: false
+mybatis-plus:
+  type-aliases-package: com.jeff.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: false
+logging:
+  level:
+    com.jeff.mapper: DEBUG

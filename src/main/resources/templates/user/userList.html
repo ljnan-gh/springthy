@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/plugins/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/plugins/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/plugins/easyui/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/icon.css">
+    <script type="text/javascript" src="/plugins/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/plugins/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/plugins/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/js/user/user.js"></script>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <!-- 页面表格布局 -->
+    <div data-options="region:'center',fit:true,border:false">
+        <table id="grid" class="easyui-datagrid"
+               data-options="
+	        	    url : '/user/datagrid',
+	        	    fit:true,
+		            striped : true,
+		            rownumbers : true,
+		            pagination : true,
+		            singleSelect : true,
+		            checkOnSelect: false,
+		            idField : 'id',
+		            pageSize : 2,
+		            pageList : [ 2, 4, 6, 8],
+	        		toolbar: '#tb', 
+			        queryParams:serializeObject($('#searchForm')),  
+			        onLoadSuccess:function(row, data){loadSuccess_on(data)}, //数据加载成功触发,无数据也返回       
+			        method: 'post',
+	        		border:false">
+            <thead>
+            <tr>
+                <th data-options="field:'loginName'" width="8%">登录名</th>
+                <th data-options="field:'sex',formatter:function(value,row,index){if(value=='1'){return '男';}else{return '女';}}"
+                    width="4%">性别
+                </th>
+                <th data-options="field:'status',formatter:function(value,row,index){if(value=='RESOURCE_ENABLE'){return '有效';}else{return '无效';}}"
+                    width="5%">用户状态
+                </th>
+                <th data-options="field:'name'" width="8%">真实姓名</th>
+                <th data-options="field:'phone'" width="9%">手机号</th>
+                <th data-options="field:'email'" width="9%">邮箱</th>
+                <th data-options="field:'createTime'" formatter="opt_formatter_time" width="13%">创建时间</th>
+                <th data-options="field:'createName'" width="6%">创建人</th>
+                <th data-options="field:'modifyTime'" formatter="opt_formatter_time" width="13%">修改时间</th>
+                <th data-options="field:'modifyName'" width="6%">修改人</th>
+                <th data-options="field:'action'" width="18%" formatter="opt_formatter">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- 页面表格操作菜单布局 -->
+<div id="tb" style="height:auto">
+    <!-- 页面搜索布局 -->
+    <div id="searchPanel" class="easyui-panel" style="width:100%;padding:5px;"
+         data-options="border:false,collapsible:true,collapsed:false">
+        <form id="searchForm" method="post" action="dataload">
+            <div id="searchDiv" class="list_searchDiv">
+                登录名：<input class="easyui-textbox" style="width:100px;" name="loginName">
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="glyphicon-search" id="dataQuery"
+                   onclick="search_on()">搜索</a>
+                <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="clearQuery"
+                   onclick="clean_on();">重置</a>
+            </div>
+        </form>
+    </div>
+    <!-- 页面工具栏操作按钮布局 -->
+    <div id="toolbar" class="list_toolbar">
+        <a id="collapseBtn" href="javascript:void(0)" class="easyui-linkbutton"
+           data-options="iconCls:'glyphicon-upload icon-blue',plain:true" onclick="collapse_on()">查询</a>
+
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"
+           onclick="add_on()">新增</a>
+
+    </div>
+</div>
+<!-- 弹出框布局 -->
+<div id="openWindow" class="easyui-dialog" closed="true"
+     data-options="iconCls:'icon-save',modal:true,buttons:'#footBar'"></div>
+<div id="footBar" style="height:auto">
+    <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:false"
+       onclick="save_on()">保存</a>
+    <a href="javascript:void(0)" id="closeBtn" class="easyui-linkbutton"
+       data-options="iconCls:'icon-cancel',plain:false" onclick="close_on()">关闭</a>
+</div>
+<div id="openWindowView" class="easyui-dialog" closed="true"
+     data-options="iconCls:'icon-save',modal:true,buttons:'#footBarView'"></div>
+<div id="footBarView" style="height:auto">
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:false"
+       onclick="closeWindowView_on()">关闭</a>
+</div>
+</body>
+</html>
